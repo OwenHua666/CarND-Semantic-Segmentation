@@ -99,6 +99,7 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
     train_op = optimizer.minimize(cross_entropy_loss+tf.reduce_sum(reg_loss))
 
+
     return logits, train_op, cross_entropy_loss
 
 tests.test_optimize(optimize)
