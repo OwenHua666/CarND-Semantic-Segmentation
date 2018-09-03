@@ -5,7 +5,7 @@ import helper
 import warnings
 from distutils.version import LooseVersion
 import project_tests as tests
-
+import time
 
 # Check TensorFlow Version
 assert LooseVersion(tf.__version__) >= LooseVersion('1.0'), 'Please use TensorFlow version 1.0 or newer.  You are using {}'.format(tf.__version__)
@@ -122,12 +122,14 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     sess.run(tf.global_variables_initializer())
     print("Training starts...")
     print("##################")
+    startTime = time.time()
     for i in range(epochs):
         print("EPOCH {} ...".format(i+1))
         for image, label in get_batches_fn(batch_size):
             _, loss = sess.run([train_op, cross_entropy_loss], 
                 feed_dict={input_image: image, correct_label: label, keep_prob:0.5, learning_rate:0.00085})
             print("Loss: ={:.3f}".format(loss))
+        print("Used time: {}".format(time.time() - startTime))
 
 tests.test_train_nn(train_nn)
 
